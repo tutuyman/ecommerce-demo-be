@@ -4,6 +4,8 @@ from pydantic import BaseModel
 class Token(BaseModel):
     access_token: str
     token_type: str
+    username: str  # Tambahkan username
+    user_id: int    # Tambahkan user_id
 
 # Model untuk user
 class UserInDB(BaseModel):

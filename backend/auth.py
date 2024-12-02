@@ -15,16 +15,16 @@ router = APIRouter()
 
 # Fungsi untuk membuat token JWT
 def create_access_token(data: dict):
-    expire = datetime.now(ZoneInfo("UTC")) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    # expire = datetime.now(ZoneInfo("UTC")) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode = data.copy()
-    to_encode.update({"exp": expire})
+    # to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 # Endpoint login (/token)
 @router.post("/token", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     # Validasi user berdasarkan username dan password
-    print(f"Login attempt: {form_data.username}, {form_data.password}")  # Tambahkan log
+    # print(f"Login attempt: {form_data.username}, {form_data.password}")  # Tambahkan log
     user = hardcoded_users.get(form_data.username)
     if not user or user.password != form_data.password:
         raise HTTPException(
@@ -36,5 +36,10 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     access_token = create_access_token(
         data={"username": form_data.username, "user_id": user.user_id}
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token, 
+        "token_type": "bearer",
+        "username": form_data.username,  # Tambahkan username
+        "user_id": user.user_id,        # Tambahkan user_id
+        }
 

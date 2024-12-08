@@ -4,3 +4,4 @@ python-jose[cryptography]
 sqlalchemy
 pymysql
 python-dotenv
+google-cloud-bigquery

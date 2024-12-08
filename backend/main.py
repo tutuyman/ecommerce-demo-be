@@ -1,13 +1,16 @@
 from fastapi import FastAPI
-from auth import router as auth_router
+# from auth import router as auth_router
+from routers.auth import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
-from routers import products
+# from routers import products
+from routers.products import router as products_router
 
 app = FastAPI()
 
-# Sertakan router dari auth.py
+# Routing
 app.include_router(auth_router)
-app.include_router(products.router)
+app.include_router(products_router)
+# app.include_router(products.router)
 
 app.add_middleware(
     CORSMiddleware,
